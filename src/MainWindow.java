@@ -16,10 +16,34 @@ public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	Boolean primerNumero = true;
+	Boolean primerNumero = true, mostrarResultado = false;
 	Double n1, n2;
 	String operacion;
 
+	public Double realizarOperacion(Double n1, Double n2, String operacion) throws ArithmeticException{
+		Double resultado = null;
+		
+		try {
+			switch(operacion) {
+				case "+":
+					resultado = n1 + n2;
+					break;
+				case "-":
+					resultado = n1 - n2;
+					break;
+				case "/":
+					resultado = n1 / n2;
+					break;
+				case "*":
+					resultado = n1 * n2;
+					break;
+			}
+		}catch(ArithmeticException e) {
+			throw e;
+		}
+		
+		return resultado;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -67,6 +91,10 @@ public class MainWindow extends JFrame {
 		btnButton_eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				labelOutput.setText("");
+				primerNumero = true;
+				mostrarResultado = false;
+				n1 = null;
+				n2 = null;
 			}
 		});
 		btnButton_eliminar.setBorderPainted(false);
@@ -77,9 +105,29 @@ public class MainWindow extends JFrame {
 		btnButton_eliminar.setBackground(new Color(250, 0, 0));
 		contentPane.add(btnButton_eliminar);
 		
-		JButton btnButton_Div = new JButton("%");
+		JButton btnButton_Div = new JButton("X");
+		btnButton_Div.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(labelOutput.getText().equalsIgnoreCase(null)) {
+					labelOutput.setText("*");
+				} else if(!mostrarResultado) {
+					if(primerNumero) {
+						n1 = Double.parseDouble(labelOutput.getText());
+						operacion = "*";
+						primerNumero = false;
+						labelOutput.setText("");
+					} else {
+						n2 = Double.parseDouble(labelOutput.getText());
+						Double resultado = realizarOperacion(n1, n2, operacion);
+						labelOutput.setText(String.valueOf(resultado));
+						n1 = resultado;
+						mostrarResultado = true;
+					}
+				}
+			}
+		});
 		btnButton_Div.setFont(new Font("Arial Black", Font.BOLD, 50));
-		btnButton_Div.setBounds(6, 120, 106, 99);
+		btnButton_Div.setBounds(238, 120, 106, 99);
 		btnButton_Div.setFont(new Font("Arial Black", Font.BOLD, 50));
 		contentPane.add(btnButton_Div);
 		
@@ -87,7 +135,12 @@ public class MainWindow extends JFrame {
 		btnButton_Cuadrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!labelOutput.getText().equalsIgnoreCase("")) {
-					Double number = Double.parseDouble(labelOutput.getText());
+					Double number;
+					if(mostrarResultado) {
+						number = n1;
+					} else {
+						number = Double.parseDouble(labelOutput.getText());
+					}
 					
 					number = Math.pow(number, 2);
 					labelOutput.setText(String.valueOf(Math.round(number)));
@@ -117,13 +170,17 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
-		btnButton_raiz.setBounds(238, 120, 106, 99);
+		btnButton_raiz.setBounds(6, 120, 106, 99);
 		btnButton_raiz.setFont(new Font("Arial Black", Font.BOLD, 50));
 		contentPane.add(btnButton_raiz);
 		
 		JButton btnButton_1 = new JButton("1");
 		btnButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "1");
 			}
 		});
@@ -134,6 +191,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_2 = new JButton("2");
 		btnButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "2");
 			}
 		});
@@ -144,6 +205,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_3 = new JButton("3");
 		btnButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "3");
 			}
 		});
@@ -154,6 +219,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_4 = new JButton("4");
 		btnButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "4");
 			}
 		});
@@ -164,6 +233,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_5 = new JButton("5");
 		btnButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "5");
 			}
 		});
@@ -174,6 +247,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_6 = new JButton("6");
 		btnButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "6");
 			}
 		});
@@ -184,6 +261,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_7 = new JButton("7");
 		btnButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "7");
 			}
 		});
@@ -194,6 +275,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_8 = new JButton("8");
 		btnButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "8");
 			}
 		});
@@ -204,6 +289,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_9 = new JButton("9");
 		btnButton_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "9");
 			}
 		});
@@ -214,6 +303,10 @@ public class MainWindow extends JFrame {
 		JButton btnButton_0 = new JButton("0");
 		btnButton_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mostrarResultado) {
+					labelOutput.setText("");
+					mostrarResultado = false;
+				}
 				labelOutput.setText(labelOutput.getText() + "0");
 			}
 		});
@@ -237,16 +330,22 @@ public class MainWindow extends JFrame {
 		JButton btnButton_dividir = new JButton("÷");
 		btnButton_dividir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(primerNumero) {
-					n2 = (Double) Double.parseDouble(labelOutput.getText());
-				} else {
-					primerNumero = true;
-					operacion = "/";
+				if(labelOutput.getText().equalsIgnoreCase(null)) {
+					labelOutput.setText("/");
+				} else if(!mostrarResultado) {
+					if(primerNumero) {
+						n1 = Double.parseDouble(labelOutput.getText());
+						operacion = "/";
+						primerNumero = false;
+						labelOutput.setText("");
+					} else {
+						n2 = Double.parseDouble(labelOutput.getText());
+						Double resultado = realizarOperacion(n1, n2, operacion);
+						labelOutput.setText(String.valueOf(resultado));
+						n1 = resultado;
+						mostrarResultado = true;
+					}
 				}
-				operacion = "/";
-				
-				n1 = (Double) Double.parseDouble(labelOutput.getText());
-				labelOutput.setText("");
 			}
 		});
 		btnButton_dividir.setBounds(354, 230, 106, 99);
@@ -254,12 +353,52 @@ public class MainWindow extends JFrame {
 		contentPane.add(btnButton_dividir);
 		
 		JButton btnButton_menos = new JButton("-");
+		btnButton_menos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(labelOutput.getText().equalsIgnoreCase("")) {
+					labelOutput.setText("-");
+				} else if(!mostrarResultado) {
+					if(primerNumero) {
+						n1 = Double.parseDouble(labelOutput.getText());
+						operacion = "-";
+						primerNumero = false;
+						labelOutput.setText("");
+					} else {
+						n2 = Double.parseDouble(labelOutput.getText());
+						Double resultado = realizarOperacion(n1, n2, operacion);
+						labelOutput.setText(String.valueOf(resultado));
+						n1 = resultado;
+						mostrarResultado = true;
+					}
+				}
+			}
+		});
 		btnButton_menos.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnButton_menos.setBounds(354, 343, 106, 99);
 		btnButton_menos.setFont(new Font("Arial Black", Font.BOLD, 74));
 		contentPane.add(btnButton_menos);
 		
 		JButton btnButton_mas = new JButton("+");
+		btnButton_mas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(labelOutput.getText().equalsIgnoreCase("")) {
+					labelOutput.setText("+");
+				} else if(!mostrarResultado) {
+					if(primerNumero) {
+						n1 = Double.parseDouble(labelOutput.getText());
+						operacion = "+";
+						primerNumero = false;
+						labelOutput.setText("");
+					} else {
+						n2 = Double.parseDouble(labelOutput.getText());
+						Double resultado = realizarOperacion(n1, n2, operacion);
+						labelOutput.setText(String.valueOf(resultado));
+						n1 = resultado;
+						mostrarResultado = true;
+					}
+				}
+			}
+		});
 		btnButton_mas.setBounds(354, 453, 106, 99);
 		btnButton_mas.setFont(new Font("Arial Black", Font.BOLD, 50));
 		contentPane.add(btnButton_mas);
@@ -272,7 +411,7 @@ public class MainWindow extends JFrame {
 		JButton btnButton_coma = new JButton(",");
 		btnButton_coma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				labelOutput.setText(labelOutput.getText() + ",");
+				labelOutput.setText(labelOutput.getText() + ".");
 			}
 		});
 		btnButton_coma.setVerticalAlignment(SwingConstants.BOTTOM);
